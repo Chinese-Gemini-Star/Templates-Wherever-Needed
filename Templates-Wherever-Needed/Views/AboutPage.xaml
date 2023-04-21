@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models = "clr-namespace:Templates_Wherever_Needed.Models"
+             x:Class="Templates_Wherever_Needed.Views.About"
+             Title="关于">
+    <ContentPage.BindingContext>
+        <models:About/>
+    </ContentPage.BindingContext>
+    <VerticalStackLayout Margin="40"
+                         HorizontalOptions="Fill">
+        <Label 
+            Text="{Binding Title}"
+            CharacterSpacing="3"
+            FontSize="50" 
+            HorizontalOptions="Center" />
+        <Label
+            CharacterSpacing="5"
+            LineHeight="3"
+            Margin="0,50,0,0"
+            Text="{Binding Description}"
+            HorizontalOptions="Center"
+            />
+    </VerticalStackLayout>
+</ContentPage>
