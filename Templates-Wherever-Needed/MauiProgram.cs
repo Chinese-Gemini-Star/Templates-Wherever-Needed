@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-
+using CommunityToolkit.Maui;
+using Templates_Wherever_Needed.Views;
+using Templates_Wherever_Needed.ViewModels;
 namespace Templates_Wherever_Needed;
 
 public static class MauiProgram
@@ -8,14 +10,15 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UseMauiApp<App>()
-            .ConfigureFonts(fonts =>
+            .UseMauiApp<App>().UseMauiCommunityToolkit().ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 fonts.AddFont("ChaoZiSheJiYingJianFan.ttf", "ChaoZiSheJiYingJianFan");
                 fonts.AddFont("YeZiGongChangChuanQiuShaXingKai.ttf", "YeZiGongChangChuanQiuShaXingKai");
             });
+        builder.Services.AddScoped<AboutPage,AboutPageViewModel>();
+
 
 #if DEBUG
         builder.Logging.AddDebug();

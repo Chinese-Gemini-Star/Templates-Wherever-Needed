@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models = "clr-namespace:Templates_Wherever_Needed.Models"
-             x:Class="Templates_Wherever_Needed.Views.About"
+             xmlns:mv = "clr-namespace:Templates_Wherever_Needed.ViewModels"
+             x:Class="Templates_Wherever_Needed.Views.AboutPage"
+             x:DataType="mv:AboutPageViewModel"
              Title="关于">
-    <ContentPage.BindingContext>
-        <models:About/>
-    </ContentPage.BindingContext>
     <VerticalStackLayout Margin="40"
                          HorizontalOptions="Fill">
         <Label 
@@ -16,20 +14,20 @@
             FontSize="{OnPlatform 50, iOS=29, Android=29}"
             FontFamily="ChaoZiSheJiYingJianFan" />
         <Label
+            Text="{Binding Description}"
             CharacterSpacing="5"
             LineHeight="{OnPlatform 3,Android=1.3}"
             FontSize="{OnPlatform Medium, Android=20}"
             Margin="{OnPlatform '0,70,0,0', Android='0,50,0,0'}"
-            Text="{Binding Description}"
             HorizontalOptions="Center"
             FontFamily="YeZiGongChangChuanQiuShaXingKai"
             />
         <Label
+            Text="{Binding Other}"
             CharacterSpacing="5"
             LineHeight="{OnPlatform 3,Android=1.3}"
             FontSize="{OnPlatform Medium, Android=20}"
             Margin="0,20,0,0"
-            Text="{Binding Other}"
             HorizontalOptions="Center"
             FontFamily="YeZiGongChangChuanQiuShaXingKai"
             />
