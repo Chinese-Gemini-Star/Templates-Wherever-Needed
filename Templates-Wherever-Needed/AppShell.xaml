@@ -11,7 +11,7 @@
         <Tab Title="主页">
             <ShellContent 
                 Title="主页"
-                ContentTemplate="{DataTemplate local:MainPage}" />
+                ContentTemplate="{DataTemplate views:MainPage}" />
         </Tab>
         <Tab Title="关于">
             <ShellContent 
