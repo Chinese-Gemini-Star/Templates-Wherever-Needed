@@ -18,6 +18,7 @@ public static class MauiProgram
                 fonts.AddFont("YeZiGongChangChuanQiuShaXingKai.ttf", "YeZiGongChangChuanQiuShaXingKai");
             });
         builder.Services.AddScoped<AboutPage,AboutPageViewModel>();
+        builder.Services.AddScoped<MainPage,MainPageViewModel>();
 
 
 #if DEBUG

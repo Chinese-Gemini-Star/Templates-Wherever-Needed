@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Templates_Wherever_Needed.Views.MainPage">
-
+             xmlns:mv ="clr-namespace:Templates_Wherever_Needed.ViewModels"
+             x:Class="Templates_Wherever_Needed.Views.MainPage"
+             x:DataType="mv:MainPageViewModel"
+             Title="主页">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -11,9 +13,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ListView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+        <ListView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -25,9 +26,16 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Grid.Row="1" Grid.Column="0" Text="从本地读取"></Button>
-        <Button Grid.Row="1" Grid.Column="1" Text="新建"></Button>
-        <Button Grid.Row="1" Grid.Column="2" Text="删除"></Button>
+        <Button Grid.Row="1" 
+                Grid.Column="0" 
+                Text="{Binding Get_text}"
+                Command="{Binding GetCommand}"
+                ToolTipProperties.Text="{Binding Get_hint}"></Button>
+        <Button Grid.Row="1" 
+                Grid.Column="1" 
+                Text="{Binding Add_text}" 
+                Command="{Binding AddCommand}"
+                ToolTipProperties.Text="{Binding Add_hint}"></Button>
     </Grid>
     
 </ContentPage>
