@@ -1,88 +1,92 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Text;
 
 namespace Templates_Wherever_Needed.Models;
 
-public class Templates : ObservableCollection<TemplateLike>, TemplateLike
+public class Templates : ObservableCollection<ITemplateLike>, ITemplateLike
 {
-    public Templates(string uri)
-    {
-        // 尝试粗略验证目录合法性
-        Path.GetFullPath(uri);
-        // 如果目录不存在则创建
-        Directory.CreateDirectory(uri);
-        // 读取所有根目录下的板子(即未分类的板子)
-        _getTemplate(uri, null);
-        // 读取所有根目录下的文件夹
-        _getDirectory(uri);
-    }
+    // 当前文件夹
+    private readonly DirectoryInfo _root;
 
-    public Templates(string uri, string name, string classify) : this(uri)
+    public Templates(string uri, string name, string classify) : this(uri, classify)
     {
         Name = name;
-        Classify = classify;
-        Lang = "Folder";
+        Lang = "";
+    }
+
+    public Templates(string uri, string classify = "")
+    {
+        // 如果目录不存在则创建
+        Directory.CreateDirectory(uri);
+        // 打开当前路径
+        _root = new DirectoryInfo(uri);
+        // 非根目录设置当前分类名
+        if (!string.IsNullOrEmpty(classify))
+        {
+            Classify = classify + "/" + _root.Name;
+        }
+
+        // 读取所有根目录下的板子(即未分类的板子)
+        _getTemplate();
+        // 读取所有根目录下的文件夹
+        _getDirectory();
     }
 
     /**
      * 获取指定路径下的所有文件夹
      */
-    private void _getDirectory(string uri)
+    private void _getDirectory()
     {
-        var root = new DirectoryInfo(uri);
         // 遍历所有文件夹
-        foreach (var dir in root.GetDirectories())
+        foreach (var dir in _root.GetDirectories())
         {
+            if((dir.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden) 
+                continue;
             Debug.WriteLine(dir.FullName);
             // 将子目录添加到列表中
-            Add(new Templates(dir.FullName,dir.Name,Classify)); // 分类记得改一下
+            Add(new Templates(dir.FullName,dir.Name,Classify));
         }
     }
     /**
      * 获取指定目录下的所有板子文件(.cpp和.c文件)
      */
-    private void _getTemplate(string uri,string type)
+    private void _getTemplate()
     {
-        var root = new DirectoryInfo(uri);
-        
         // 读取所有CPP文件
-        foreach (var f in root.GetFiles("*.cpp"))
-        {
-            Debug.WriteLine(f.FullName);
-            Add(new Template(f.Name,"Cpp",Classify));
-        }
+        _addTemplatesByLang("CPP", "*.cpp");
+
+        // 读取所有H文件
+        _addTemplatesByLang("H","*.h");
 
         // 读取所有C文件
-        foreach (var f in root.GetFiles("*.c"))
-        {
-            Debug.WriteLine(f.FullName);
-            Add(new Template(f.Name, "C", Classify));
-        }
+        _addTemplatesByLang("C", "*.c");
 
         // 读取所有Py文件
-        foreach (var f in root.GetFiles("*.py"))
+        _addTemplatesByLang("Py", "*.py");
+    }
+
+    private void _addTemplatesByLang(string lang, string langType)
+    {
+        foreach (var f in _root.GetFiles(langType))
         {
+            if ((f.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+                continue;
             Debug.Write(f.FullName);
-            Add(new Template(f.Name, "Py", Classify));
+            Add(new Template(Path.GetFileNameWithoutExtension(f.FullName), lang, Classify));
         }
     }
 
     // 板子名
-    public string Name
-    {
-        get; set;
-    }
+    public string Name { get; set; }
+
+    // 提示信息
+    public string Description { get; set; } = "子分类";
 
     // 板子语言
-    public string Lang
-    {
-        get; set;
-    }
+    public string Lang { get; set; }
 
     // 板子分类
-    public string Classify
-    {
-        get; set;
-    }
+    public string Classify { get; set; }
+
+    public string ICO { get; set; } = "folder.png";
 }

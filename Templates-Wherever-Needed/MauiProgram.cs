@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui;
 using Templates_Wherever_Needed.Views;
 using Templates_Wherever_Needed.ViewModels;
+
 namespace Templates_Wherever_Needed;
 
 public static class MauiProgram
@@ -20,11 +21,9 @@ public static class MauiProgram
         builder.Services.AddScoped<AboutPage,AboutPageViewModel>();
         builder.Services.AddScoped<MainPage,MainPageViewModel>();
 
-
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
-
         return builder.Build();
     }
 }

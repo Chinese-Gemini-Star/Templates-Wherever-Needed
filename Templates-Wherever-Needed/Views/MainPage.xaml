@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mv ="clr-namespace:Templates_Wherever_Needed.ViewModels"
+             xmlns:m ="clr-namespace:Templates_Wherever_Needed.Models"
              x:Class="Templates_Wherever_Needed.Views.MainPage"
              x:DataType="mv:MainPageViewModel"
              Title="主页">
@@ -14,14 +15,21 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ListView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+        <ListView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                  ItemsSource="{Binding Templates}">
             <ListView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="m:ITemplateLike">
                     <ViewCell>
-                        <VerticalStackLayout>
-                            <Label Text="测试">
-                            </Label>
+                        <HorizontalStackLayout Padding="8">
+                            <Image Source="{Binding ICO}" WidthRequest="30" HeightRequest="30"></Image>
+                            <VerticalStackLayout Padding="8">
+                                <Label Text="{Binding Name}" FontSize="20"></Label>
+                                <HorizontalStackLayout>
+                                    <Label Text="{Binding Description}"></Label>
+                                    <Label Text="{Binding Lang}" TextColor="CornflowerBlue"></Label>
+                                </HorizontalStackLayout>
                         </VerticalStackLayout>
+                        </HorizontalStackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
