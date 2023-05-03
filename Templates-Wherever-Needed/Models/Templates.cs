@@ -25,10 +25,13 @@ public class Templates : ObservableCollection<ITemplateLike>, ITemplateLike
         {
             Classify = classify + "/" + _root.Name;
         }
+    }
 
-        // 读取所有根目录下的板子(即未分类的板子)
+    public void Init()
+    {
+        // 读取所有当前目录下的板子(即未分类的板子)
         _getTemplate();
-        // 读取所有根目录下的文件夹
+        // 读取所有当前目录下的文件夹
         _getDirectory();
     }
 

@@ -6,7 +6,9 @@
              x:Class="Templates_Wherever_Needed.Views.MainPage"
              x:DataType="mv:MainPageViewModel"
              Title="主页">
-
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{Binding Add_text}" Command="{Binding AddCommand}" IconImageSource="{FontImage Glyph='+', Color=White, Size=22}" />
+    </ContentPage.ToolbarItems>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -17,7 +19,8 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <ListView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                  ItemsSource="{Binding Templates}">
+                  ItemsSource="{Binding Templates}"
+                  SelectedItem="{Binding SelectCommand}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="m:ITemplateLike">
                     <ViewCell>

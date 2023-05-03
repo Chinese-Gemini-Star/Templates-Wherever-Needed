@@ -14,23 +14,20 @@ public partial class MainPageViewModel : ObservableObject
     [ObservableProperty] private string _add_text = @"新建";
     [ObservableProperty] private string _add_hint = @"新建一个板子文件";
     [ObservableProperty] private Templates _templates;
-    
-    // 板子所在目录
-    private string _uri;
 
     public async Task Init()
     {
         // 尝试获取配置文件中保存的路径
-        _uri = Preferences.Default.Get("uri", "");
+        var uri = Preferences.Default.Get("uri", "");
 
         // 如果不存在已设置的路径,要求用户给出一个路径(为了用户体验,允许取消)
-        if (string.IsNullOrEmpty(_uri))
+        if (string.IsNullOrEmpty(uri))
         {
             // await Get(); // 存在bug,无法在页面刚初始化完成时弹出弹窗
         }
         else
         {
-            await _read();
+            await _read(uri, true);
         }
     }
 
@@ -40,29 +37,32 @@ public partial class MainPageViewModel : ObservableObject
     [RelayCommand]
     private async Task Get()
     {
-        _uri = await App.Current.MainPage.DisplayPromptAsync("读取板子",
+        var uri = await App.Current.MainPage.DisplayPromptAsync("读取板子",
             "请指定板子存放位置,框架存在bug,安卓下不可使用",
             accept: "选择",
             cancel: "取消",
             placeholder: "只允许给出文件夹,如果不存在会自动创建");
-        if (!string.IsNullOrEmpty(_uri))
+        if (!string.IsNullOrEmpty(uri))
         {
-            await _read();
+            await _read(uri,true);
         }
     }
 
     /**
      * 读取板子所在的目录
      */
-    private async Task _read()
+    private async Task _read(string uri,bool isRoot)
     {
         try
         {
-            Debug.WriteLine("aaaaaa");
             // 生成板子集
-            Templates = new Templates(_uri);
-            Debug.WriteLine("已读取路径:" + _uri);
-            Preferences.Default.Set("uri", _uri);
+            Templates = new Templates(uri);
+            Templates.Init();
+            Debug.WriteLine("已读取路径:" + uri);
+            if (isRoot)
+            {
+                Preferences.Default.Set("uri", uri);
+            }
         }
         catch (DirectoryNotFoundException)
         {
@@ -77,5 +77,14 @@ public partial class MainPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void Add() { }
+    private void Select()
+    {
+
+    }
+
+    [RelayCommand]
+    private void Add()
+    {
+        Debug.WriteLine("新建板子");
+    }
 }
