@@ -6,6 +6,7 @@
              x:Class="Templates_Wherever_Needed.Views.MainPage"
              x:DataType="mv:MainPageViewModel"
              Title="主页">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>

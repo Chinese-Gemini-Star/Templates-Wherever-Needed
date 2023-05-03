@@ -1,4 +1,6 @@
-﻿using Templates_Wherever_Needed.ViewModels;
+﻿using System.Diagnostics;
+using CommunityToolkit.Maui.Views;
+using Templates_Wherever_Needed.ViewModels;
 
 namespace Templates_Wherever_Needed.Views;
 
@@ -8,6 +10,7 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
         BindingContext = mainPageViewModel;
+        mainPageViewModel.Init();
     }
 }
 
