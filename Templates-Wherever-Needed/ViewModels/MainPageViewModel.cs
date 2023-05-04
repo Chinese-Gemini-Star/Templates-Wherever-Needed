@@ -9,11 +9,15 @@ namespace Templates_Wherever_Needed.ViewModels;
 
 public partial class MainPageViewModel : ObservableObject
 {
+    [ObservableProperty] private string _title = @"主页";
     [ObservableProperty] private string _get_text = @"更改路径";
     [ObservableProperty] private string _get_hint = @"更改存放在本地的板子的路径";
     [ObservableProperty] private string _add_text = @"新建";
     [ObservableProperty] private string _add_hint = @"新建一个板子文件";
+    [ObservableProperty] private string _back_text = @"后退";
     [ObservableProperty] private Templates _templates;
+
+    private Stack<Templates> _prev = new Stack<Templates>();
 
     public async Task Init()
     {
@@ -77,9 +81,43 @@ public partial class MainPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void Select(ITemplateLike i)
+    private async void Select(ITemplateLike templateLike)
     {
-        Debug.WriteLine(i);
+        if (templateLike is Templates)
+        {
+            // 当前选中了一个子分类
+            _prev.Push(Templates);
+            Templates = (Templates)templateLike;
+            Templates.Init();
+            Title = Templates.Name;
+            Debug.WriteLine("当前打开了" + Title + "子分类");
+        }
+        else
+        {
+            // 当前选中了一个板子
+            Template template = (Template)templateLike;
+            await Shell.Current.GoToAsync(
+                $"{nameof(Views.TemplatePage)}?uri={template.Uri}&lang={template.Lang}&classify={template.Classify}");
+        }
+    }
+
+    [RelayCommand]
+    private void Back()
+    {
+        if (_prev.Count() != 0)
+        {
+            // 当前不是根目录,回退
+            Templates = _prev.Pop();
+            Templates.Init();
+            Title = string.IsNullOrEmpty(Templates.Name) ? "主页" : Templates.Name;
+            Debug.WriteLine("回退至" + Title + "分类");
+        }
+        else
+        {
+            Debug.WriteLine("根目录不能回退");
+            Templates.Init();
+
+        }
     }
 
     [RelayCommand]

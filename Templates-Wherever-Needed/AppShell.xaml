@@ -8,16 +8,11 @@
     Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
-        <Tab Title="主页">
-            <ShellContent 
+        <ShellContent 
                 Title="主页"
                 ContentTemplate="{DataTemplate views:MainPage}" />
-        </Tab>
-        <Tab Title="关于">
-            <ShellContent 
+        <ShellContent 
                 Title="关于"
                 ContentTemplate="{DataTemplate views:AboutPage}" />
-        </Tab>
-
     </TabBar>
 </Shell>

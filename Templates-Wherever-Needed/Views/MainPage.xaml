@@ -5,8 +5,9 @@
              xmlns:m ="clr-namespace:Templates_Wherever_Needed.Models"
              x:Class="Templates_Wherever_Needed.Views.MainPage"
              x:DataType="mv:MainPageViewModel"
-             Title="主页">
+             Title="{Binding Title}">
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text ="{Binding Back_text}" Command="{Binding BackCommand}" IconImageSource="{FontImage Glyph='◀', Color=White, Size=10}"></ToolbarItem>
         <ToolbarItem Text="{Binding Add_text}" Command="{Binding AddCommand}" IconImageSource="{FontImage Glyph='+', Color=White, Size=22}" />
     </ContentPage.ToolbarItems>
     <Grid>

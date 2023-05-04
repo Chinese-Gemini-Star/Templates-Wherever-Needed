@@ -20,6 +20,7 @@ public static class MauiProgram
             });
         builder.Services.AddScoped<AboutPage,AboutPageViewModel>();
         builder.Services.AddScoped<MainPage,MainPageViewModel>();
+        builder.Services.AddScoped<TemplatePage, TemplatePageViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();

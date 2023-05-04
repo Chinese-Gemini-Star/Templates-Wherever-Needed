@@ -7,7 +7,7 @@ public class Templates : ObservableCollection<ITemplateLike>, ITemplateLike
 {
     // 当前文件夹
     private readonly DirectoryInfo _root;
-
+    
     public Templates(string uri, string name, string classify) : this(uri, classify)
     {
         Name = name;
@@ -29,6 +29,8 @@ public class Templates : ObservableCollection<ITemplateLike>, ITemplateLike
 
     public void Init()
     {
+        // 防止重复添加
+        Clear();
         // 读取所有当前目录下的板子(即未分类的板子)
         _getTemplate();
         // 读取所有当前目录下的文件夹
@@ -68,6 +70,9 @@ public class Templates : ObservableCollection<ITemplateLike>, ITemplateLike
         _addTemplatesByLang("Py", "*.py");
     }
 
+    /**
+     * 读取指定语言的板子
+     */
     private void _addTemplatesByLang(string lang, string langType)
     {
         foreach (var f in _root.GetFiles(langType))
@@ -75,7 +80,7 @@ public class Templates : ObservableCollection<ITemplateLike>, ITemplateLike
             if ((f.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
                 continue;
             Debug.WriteLine(f.FullName);
-            Add(new Template(Path.GetFileNameWithoutExtension(f.FullName), lang, Classify));
+            Add(new Template(f.FullName, lang, Classify));
         }
     }
 
@@ -89,7 +94,7 @@ public class Templates : ObservableCollection<ITemplateLike>, ITemplateLike
     public string Lang { get; set; }
 
     // 板子分类
-    public string Classify { get; set; }
+    public string Classify { get; set; } = "";
 
     public string ICO { get; set; } = "folder.png";
 }
