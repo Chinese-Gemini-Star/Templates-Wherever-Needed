@@ -77,9 +77,9 @@ public partial class MainPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void Select(ITemplateLike template)
+    private void Select(ITemplateLike i)
     {
-        Debug.WriteLine(template);
+        Debug.WriteLine(i);
     }
 
     [RelayCommand]

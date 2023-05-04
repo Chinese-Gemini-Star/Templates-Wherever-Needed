@@ -74,7 +74,7 @@ public class Templates : ObservableCollection<ITemplateLike>, ITemplateLike
         {
             if ((f.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
                 continue;
-            Debug.Write(f.FullName);
+            Debug.WriteLine(f.FullName);
             Add(new Template(Path.GetFileNameWithoutExtension(f.FullName), lang, Classify));
         }
     }

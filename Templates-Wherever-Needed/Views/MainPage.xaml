@@ -18,26 +18,26 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ListView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+        <CollectionView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                   ItemsSource="{Binding Templates}"
-                  SelectedItem="{Binding SelectCommand}">
-            <ListView.ItemTemplate>
+                  SelectionMode="Single"
+                  SelectionChangedCommand="{Binding SelectCommand}"
+                  SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
+            <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:ITemplateLike">
-                    <ViewCell>
-                        <HorizontalStackLayout Padding="8">
-                            <Image Source="{Binding ICO}" WidthRequest="30" HeightRequest="30"></Image>
-                            <VerticalStackLayout Padding="8">
-                                <Label Text="{Binding Name}" FontSize="20"></Label>
-                                <HorizontalStackLayout>
-                                    <Label Text="{Binding Description}"></Label>
-                                    <Label Text="{Binding Lang}" TextColor="CornflowerBlue"></Label>
-                                </HorizontalStackLayout>
+                    <HorizontalStackLayout Padding="8">
+                        <Image Source="{Binding ICO}" WidthRequest="30" HeightRequest="30"></Image>
+                        <VerticalStackLayout Padding="8">
+                            <Label Text="{Binding Name}" FontSize="20"></Label>
+                            <HorizontalStackLayout>
+                                <Label Text="{Binding Description}"></Label>
+                                <Label Text="{Binding Lang}" TextColor="CornflowerBlue"></Label>
+                            </HorizontalStackLayout>
                         </VerticalStackLayout>
                         </HorizontalStackLayout>
-                    </ViewCell>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
         <Button Grid.Row="1" 
                 Grid.Column="0" 
                 Text="{Binding Get_text}"
